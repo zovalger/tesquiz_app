@@ -1,95 +1,48 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+import { Container, Typography, Divider } from "@mui/material";
 
 export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+	return (
+		<>
+			<Container sx={{ textAlign: "center", bgcolor: "#090c22ff" }}>
+				<Typography variant="h1" component="span" sx={{ color: "#fff" }}>
+					TES
+				</Typography>
+				<Typography variant={"h1"} component="span" sx={{ color: "#1d61b0ff" }}>
+					QUIZ
+				</Typography>
+			</Container>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+			<Container>
+				<Typography variant={"h2"}>hello</Typography>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+				<Typography>
+					Lorem ipsum dolor, sit amet consectetur adipisicing elit. Amet fugiat
+					aliquam obcaecati placeat adipisci, odio praesentium. Distinctio
+					neque, autem earum totam excepturi, incidunt saepe magni doloribus
+					ipsum, recusandae ipsa ad.
+				</Typography>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
+				<Typography variant={"h6"}>hello</Typography>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
+				<Typography variant="subtitle2">
+					Lorem ipsum dolor, sit amet consectetur adipisicing elit. Amet fugiat
+					aliquam obcaecati placeat adipisci, odio praesentium. Distinctio
+					neque, autem earum totam excepturi, incidunt saepe magni doloribus
+					ipsum, recusandae ipsa ad.
+				</Typography>
+				<Divider sx={{ my: 5 }} />
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+				<Typography variant="h2" component={"span"}>
+					hola
+				</Typography>
+
+				<Typography variant="subtitle2" color={"#090c22ff"}>
+					Lorem ipsum dolor, sit amet consectetur adipisicing elit. Amet fugiat
+					aliquam obcaecati placeat adipisci, odio praesentium. Distinctio
+					neque, autem earum totam excepturi, incidunt saepe magni doloribus
+					ipsum, recusandae ipsa ad.
+				</Typography>
+			</Container>
+		</>
+	);
 }
