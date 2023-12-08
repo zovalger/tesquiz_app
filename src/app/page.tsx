@@ -1,20 +1,14 @@
-import TextInputContent from "@/components/TextInputContent";
-import { Container, Typography, Divider } from "@mui/material";
+import { useState } from "react";
+import { Container, Typography } from "@mui/material";
+import { TextBox } from "../../types";
+import TextBoxData from "@/test/testData";
+import Link from "next/link";
 
 export default function Home() {
 	return (
 		<>
-			<Container sx={{ textAlign: "center", bgcolor: "#090c22ff" }}>
-				<Typography variant="h1" component="span" sx={{ color: "#fff" }}>
-					TES
-				</Typography>
-				<Typography variant={"h1"} component="span" sx={{ color: "#1d61b0ff" }}>
-					QUIZ
-				</Typography>
-			</Container>
-
-			<TextInputContent />
-
+			<h1>landing</h1>
+			<Link href={"/dashboard"}>dashboard</Link>
 		</>
 	);
 }
