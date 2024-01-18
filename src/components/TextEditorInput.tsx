@@ -12,7 +12,12 @@ import AddIcon from "@mui/icons-material/Add";
 
 import { TextBox } from "../../types";
 import MoreOptionButtonVariantText from "./MoreOptionButtonVariantText";
-import { insertTextBoxEditor, upTextBox } from "@/redux/Slices/TextEditorSlice";
+import {
+	chageTextInBox,
+	downTextBox,
+	insertTextBoxEditor,
+	upTextBox,
+} from "@/redux/Slices/TextEditorSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 
 interface props {
@@ -24,42 +29,29 @@ const TextEditorInput = ({ index, data }: props) => {
 	const textBoxEditor = useAppSelector((state) => state.textBoxEditor);
 	const dispatch = useAppDispatch();
 
-	console.log(data);
-	
+	const [text, setText] = useState(data.text);
+
+	const onChange = (value: string) => {
+		setText(value);
+	};
+
+	const onBlur = () => {
+		dispatch(chageTextInBox({ index, text }));
+	};
+
 	return (
 		<>
 			{/* text-indent */}
 			<Box
 				sx={{
 					display: "flex",
-					flexDirection: "column",
-					alignItems: "flex-end",
+					flexDirection: "row",
+					alignItems: "flex-start",
 					mt: 2,
 				}}
 			>
-				<InputBase
-					placeholder="text here"
-					multiline
-					inputProps={{ "aria-label": "search google maps" }}
-					fullWidth
-					value={data.text}
-				/>
-				<Paper
-					sx={{
-						p: "2px 4px",
-						display: "inline-flex",
-					}}
-				>
-					<IconButton
-						sx={{ borderRadius: 0 }}
-						size="small"
-						aria-label="menu"
-						onClick={() => dispatch(insertTextBoxEditor(index))}
-					>
-						<AddIcon />
-					</IconButton>
-
-					<Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+				<Box sx={{ display: "flex", flexDirection: "column" }}>
+					<MoreOptionButtonVariantText />
 
 					<IconButton
 						sx={{ borderRadius: 0 }}
@@ -76,16 +68,37 @@ const TextEditorInput = ({ index, data }: props) => {
 						size="small"
 						type="button"
 						aria-label="search"
-						onClick={() => dispatch(upTextBox(index))}
+						onClick={() => dispatch(downTextBox(index))}
 						disabled={index == textBoxEditor.length - 1}
 					>
 						<ArrowDropDownIcon />
 					</IconButton>
 
-					<Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+					<IconButton
+						sx={{ borderRadius: 0 }}
+						size="small"
+						aria-label="menu"
+						onClick={() => dispatch(insertTextBoxEditor(index))}
+					>
+						<AddIcon />
+					</IconButton>
+				</Box>
 
-					<MoreOptionButtonVariantText />
-				</Paper>
+				<Box sx={{ flexGrow: 1 }}>
+					<InputBase
+						placeholder="text here"
+						id={`${index}`}
+						multiline
+						fullWidth
+						inputProps={{ style: { height: "100%" } }}
+						sx={{ height: "100%" }}
+						value={text}
+						onBlur={onBlur}
+						onChange={({ target: { value } }) => onChange(value)}
+					/>
+				</Box>
+
+				{/* // ToDo: enter crear otro texbox si es el ultimo si es uno entremedio solo guardar */}
 			</Box>
 		</>
 	);

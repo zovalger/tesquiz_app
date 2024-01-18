@@ -19,7 +19,7 @@ export const textBoxEditorSlice = createSlice({
 	initialState,
 	reducers: {
 		setClassData: (state, action: PayloadAction<TextBox[]>) => {
-			state = action.payload;
+			return action.payload;
 		},
 		insertTextBoxEditor: (state, action: PayloadAction<number>) => {
 			const l = action.payload + 1;
@@ -27,20 +27,33 @@ export const textBoxEditorSlice = createSlice({
 			const before = state.slice(0, l);
 
 			const after = state.slice(l);
-
-			state = [...before, initialTextBox, ...after];
+			return [...before, initialTextBox, ...after];
 		},
 		upTextBox: (state, action: PayloadAction<number>) => {
-			state = upItemInArray(state, action.payload);
+			return upItemInArray(state, action.payload);
 		},
 		downTextBox: (state, action: PayloadAction<number>) => {
-			state = downItemInArray(state, action.payload);
+			return downItemInArray(state, action.payload);
+		},
+		chageTextInBox: (
+			state,
+			action: PayloadAction<{ index: number; text: string }>
+		) => {
+			const { index, text } = action.payload;
+
+			state[index] = { ...state[index], text: text.trim() };
+			return state;
 		},
 	},
 });
 
 // Action creators are generated for each case reducer function
-export const { setClassData, insertTextBoxEditor, upTextBox, downTextBox } =
-	textBoxEditorSlice.actions;
+export const {
+	setClassData,
+	insertTextBoxEditor,
+	upTextBox,
+	downTextBox,
+	chageTextInBox,
+} = textBoxEditorSlice.actions;
 
 export default textBoxEditorSlice.reducer;
