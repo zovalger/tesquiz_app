@@ -1,5 +1,3 @@
-
-
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
@@ -17,8 +15,8 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-			<html lang="es">
-				<body className={inter.className}>{children}</body>
-			</html>
+		<html lang="es">
+			<body className={inter.className}>{children}</body>
+		</html>
 	);
 }

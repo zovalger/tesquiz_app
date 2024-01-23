@@ -2,23 +2,32 @@
 
 import * as Yup from "yup";
 import { useFormik, FormikHelpers } from "formik";
-import React from "react";
+import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Unstable_Grid2";
-import { Typography } from "@mui/material";
+import { Alert, Typography } from "@mui/material";
 import Link from "next/link";
 
 import LogoTesQuiz from "@/components/LogoTesQuiz";
 import axios from "axios";
 import { SERVER_URL } from "@/config";
+import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { setUserData } from "@/redux/Slices/UserSlice";
+import RouterLinks from "@/config/RouterLinks";
 
 interface Values {
 	email: string;
 	password: string;
 }
 const Page = () => {
+	const router = useRouter();
+	const dispatch = useAppDispatch();
+
+	const [loginError, setLoginError] = useState(false);
+
 	const onSubmit = async (
 		values: Values,
 		{ setSubmitting }: FormikHelpers<Values>
@@ -27,11 +36,17 @@ const Page = () => {
 			setSubmitting(true);
 			const res = await axios.post(`${SERVER_URL}/loginStudent`, values);
 
-			console.log(res.data);
+			dispatch(setUserData(res.data));
+
+			router.push(RouterLinks.student.dashboard);
 
 			setSubmitting(false);
 		} catch (error) {
 			console.log(error);
+
+			setLoginError(true);
+
+			setSubmitting(false);
 		}
 	};
 
@@ -71,7 +86,12 @@ const Page = () => {
 						<LogoTesQuiz width={250} />
 					</Box>
 
-					<form>
+					<form
+						onSubmit={(e) => {
+							e.preventDefault();
+							formik.submitForm();
+						}}
+					>
 						<Grid maxWidth={"800px"} container spacing={5}>
 							<Grid xs={12}>
 								<TextField
@@ -102,12 +122,16 @@ const Page = () => {
 							</Grid>
 
 							<Grid xs={12}>
+								{loginError && (
+									<Alert severity="error">Correo o contraseña incorrecta</Alert>
+								)}
 								<Button
 									variant="contained"
 									fullWidth
 									sx={{
 										p: 1.5,
 									}}
+									type="submit"
 									onClick={() => formik.submitForm()}
 								>
 									Iniciar sesión
@@ -125,11 +149,13 @@ const Page = () => {
 						}}
 					>
 						<Typography variant="body2">
-							<Link href={"/register"}>¿No tienes cuenta? Regístrate</Link>
+							<Link href={RouterLinks.student.register}>
+								¿No tienes cuenta? Regístrate
+							</Link>
 						</Typography>
 
 						<Typography variant="body2" sx={{ mt: 2 }}>
-							<Link href={"/login_admin"}> Admin</Link>
+							<Link href={RouterLinks.admin.login_admin}> Admin</Link>
 						</Typography>
 					</Box>
 				</Box>

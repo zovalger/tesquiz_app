@@ -7,6 +7,7 @@ import { Typography } from "@mui/material";
 import Link from "next/link";
 
 import LogoTesQuiz from "@/components/LogoTesQuiz";
+import RouterLinks from "@/config/RouterLinks";
 
 const page = () => {
 	return (
@@ -123,7 +124,9 @@ const page = () => {
 						}}
 					>
 						<Typography variant="body2">
-							<Link href={"/login"}>¿Ya tienes cuenta? Inicia sesión</Link>
+							<Link href={RouterLinks.student.login}>
+								¿Ya tienes cuenta? Inicia sesión
+							</Link>
 						</Typography>
 					</Box>
 				</Box>
