@@ -4,6 +4,7 @@ import { AdminUserData, StudentUserData, TextBox } from "../../../types";
 import TextBoxData from "@/test/testData";
 import { RootState } from "../store";
 import { downItemInArray, upItemInArray } from "@/utils";
+import { Roles } from "../../../enums";
 
 const nullUser = {
 	_id: "",
@@ -12,7 +13,7 @@ const nullUser = {
 	username: "",
 	email: "",
 	password: "",
-	role: "",
+	role: Roles.null,
 };
 
 const initialState: AdminUserData | StudentUserData = nullUser;
@@ -27,7 +28,7 @@ export const userSlice = createSlice({
 		) => {
 			return action.payload;
 		},
-		closeSesion: () => undefined,
+		closeSesion: () => nullUser,
 	},
 });
 

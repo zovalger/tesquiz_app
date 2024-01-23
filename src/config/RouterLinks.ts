@@ -1,4 +1,5 @@
 const RouterLinks = {
+	landing: "/",
 	student: {
 		register: "/register",
 		login: "/user/login",

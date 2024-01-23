@@ -2,26 +2,33 @@
 
 import * as Yup from "yup";
 import { useFormik, FormikHelpers } from "formik";
-import React from "react";
+import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Unstable_Grid2";
-import { Typography } from "@mui/material";
+import { Alert, Typography } from "@mui/material";
 import Link from "next/link";
 
 import LogoTesQuiz from "@/components/LogoTesQuiz";
 import axios from "axios";
 import { SERVER_URL } from "@/config";
-
-import colors from "@/config/colors";
+import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { setUserData } from "@/redux/Slices/UserSlice";
 import RouterLinks from "@/config/RouterLinks";
+import colors from "@/config/colors";
 
 interface Values {
 	email: string;
 	password: string;
 }
 const Page = () => {
+	const router = useRouter();
+	const dispatch = useAppDispatch();
+
+	const [loginError, setLoginError] = useState(false);
+
 	const onSubmit = async (
 		values: Values,
 		{ setSubmitting }: FormikHelpers<Values>
@@ -30,13 +37,12 @@ const Page = () => {
 			setSubmitting(true);
 			const res = await axios.post(`${SERVER_URL}/loginAdmin`, values);
 
-			console.log(res.data);
+			dispatch(setUserData(res.data));
 
-			setSubmitting(false);
+			router.push(RouterLinks.admin.dashboard);
 		} catch (error) {
 			console.log(error);
 			setSubmitting(false);
-
 		}
 	};
 
@@ -84,7 +90,12 @@ const Page = () => {
 						</Box>
 					</Box>
 
-					<form>
+					<form
+						onSubmit={(e) => {
+							e.preventDefault();
+							formik.submitForm();
+						}}
+					>
 						<Grid maxWidth={"800px"} container spacing={5}>
 							<Grid xs={12}>
 								<TextField
@@ -115,12 +126,16 @@ const Page = () => {
 							</Grid>
 
 							<Grid xs={12}>
+								{loginError && (
+									<Alert severity="error">Correo o contraseña incorrecta</Alert>
+								)}
 								<Button
 									variant="contained"
 									fullWidth
 									sx={{
 										p: 1.5,
 									}}
+									type="submit"
 									onClick={() => formik.submitForm()}
 								>
 									Iniciar sesión

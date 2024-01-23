@@ -16,8 +16,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 	// no ser estudiantes llevar landing
 
 	useEffect(() => {
-		if (user.role != Roles.student) return router.replace(RouterLinks.landing);
+		if (user.role != Roles.admin) return router.replace(RouterLinks.landing);
 	}, [user]);
-	
+
 	return <>{children}</>;
 }
