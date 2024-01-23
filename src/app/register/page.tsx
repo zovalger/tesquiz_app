@@ -1,7 +1,3 @@
-"use client";
-
-import * as Yup from "yup";
-import { useFormik, FormikHelpers } from "formik";
 import React from "react";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
@@ -11,42 +7,8 @@ import { Typography } from "@mui/material";
 import Link from "next/link";
 
 import LogoTesQuiz from "@/components/LogoTesQuiz";
-import axios from "axios";
-import { SERVER_URL } from "@/config";
 
-interface Values {
-	email: string;
-	password: string;
-}
-const Page = () => {
-	const onSubmit = async (
-		values: Values,
-		{ setSubmitting }: FormikHelpers<Values>
-	) => {
-		try {
-			setSubmitting(true);
-			const res = await axios.post(`${SERVER_URL}/loginStudent`, values);
-
-			console.log(res.data);
-
-			setSubmitting(false);
-		} catch (error) {
-			console.log(error);
-		}
-	};
-
-	const formik = useFormik({
-		initialValues: {
-			email: "",
-			password: "",
-		},
-		validationSchema: Yup.object({
-			email: Yup.string().email("No es un correo valido"),
-			password: Yup.string(),
-		}),
-		onSubmit,
-	});
-
+const page = () => {
 	return (
 		<>
 			<Box
@@ -72,7 +34,42 @@ const Page = () => {
 					</Box>
 
 					<form>
-						<Grid maxWidth={"800px"} container spacing={5}>
+						<Grid maxWidth={"800px"} container spacing={2}>
+							<Grid xs={12} md={6}>
+								<TextField
+									label="Nombre"
+									variant="outlined"
+									name="firstName"
+									type="text"
+									fullWidth
+									error={false}
+									helperText="Incorrect entry."
+								/>
+							</Grid>
+							<Grid xs={12} md={6}>
+								<TextField
+									label="Apellido"
+									variant="outlined"
+									name="lastName"
+									type="text"
+									fullWidth
+									error={false}
+									helperText="Incorrect entry."
+								/>
+							</Grid>
+
+							<Grid xs={12}>
+								<TextField
+									label="Nombre de usuario"
+									variant="outlined"
+									name="username"
+									type="text"
+									fullWidth
+									error={false}
+									helperText="Incorrect entry."
+								/>
+							</Grid>
+
 							<Grid xs={12}>
 								<TextField
 									label="Correo"
@@ -80,24 +77,27 @@ const Page = () => {
 									name="email"
 									type="email"
 									fullWidth
-									value={formik.values.email}
-									onChange={formik.handleChange}
-									error={!!formik.errors.email}
-									helperText={formik.errors.email}
+									// error
+									helperText="Incorrect entry."
 								/>
 							</Grid>
 
-							<Grid xs={12}>
+							<Grid xs={12} md={6}>
 								<TextField
 									label="Contraseña"
 									variant="outlined"
 									name="password"
 									type="password"
 									fullWidth
-									value={formik.values.password}
-									onChange={formik.handleChange}
-									error={!!formik.errors.password}
-									helperText={formik.errors.password}
+								/>
+							</Grid>
+							<Grid xs={12} md={6}>
+								<TextField
+									label="Repetir contraseña"
+									variant="outlined"
+									name="repeatPassword"
+									type="password"
+									fullWidth
 								/>
 							</Grid>
 
@@ -108,14 +108,12 @@ const Page = () => {
 									sx={{
 										p: 1.5,
 									}}
-									onClick={() => formik.submitForm()}
 								>
-									Iniciar sesión
+									Registrarse
 								</Button>
 							</Grid>
 						</Grid>
 					</form>
-
 					<Box
 						sx={{
 							mt: 2,
@@ -125,11 +123,7 @@ const Page = () => {
 						}}
 					>
 						<Typography variant="body2">
-							<Link href={"/register"}>¿No tienes cuenta? Regístrate</Link>
-						</Typography>
-
-						<Typography variant="body2" sx={{ mt: 2 }}>
-							<Link href={"/login_admin"}> Admin</Link>
+							<Link href={"/login"}>¿Ya tienes cuenta? Inicia sesión</Link>
 						</Typography>
 					</Box>
 				</Box>
@@ -138,4 +132,4 @@ const Page = () => {
 	);
 };
 
-export default Page;
+export default page;
