@@ -12,10 +12,12 @@ import AppBarModule from "@/components/AppBarModule";
 import SectionItem from "@/components/SectionItem";
 import { useAppSelector } from "@/redux/store";
 import PageTemplate from "@/components/PageTemplate";
+import useGetClassOfSection from "@/hooks/useGetClassOfSection";
+import { Skeleton } from "@mui/material";
+import ClassItem from "@/components/ClassItem";
 
 const Page = () => {
-	const UI_Settings = useAppSelector((state) => state.UI_Settings);
-	const sections = useAppSelector((state) => state.sections);
+	const [loanding, data] = useGetClassOfSection();
 	const theme = useTheme();
 
 	const transitionDuration = {
@@ -25,10 +27,26 @@ const Page = () => {
 
 	return (
 		<>
-			<PageTemplate nameNavBar="Secciones">
-				{sections.map((s) => (
-					<SectionItem key={uuid()} data={s} />
-				))}
+			<PageTemplate
+				nameNavBar={
+					loanding ? (
+						<Skeleton
+							variant="text"
+							sx={{ fontSize: "2rem" }}
+							width={"300px"}
+						/>
+					) : (
+						"clases de algo"
+					)
+				}
+			>
+				{loanding ? (
+					<Skeleton variant="rounded" height={60} />
+				) : data !== null ? (
+					data.map((s) => <ClassItem key={uuid()} data={s} />)
+				) : (
+					"error"
+				)}
 
 				<Box sx={{ position: "fixed", right: 10, bottom: 10 }}>
 					<Zoom

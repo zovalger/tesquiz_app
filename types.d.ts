@@ -1,4 +1,4 @@
-import { Roles } from "./enums";
+import { Roles, TypeText } from "./enums";
 
 export interface userData {
 	_id: string;
@@ -25,9 +25,20 @@ export interface RegisterStudentData {
 	repeatPassword: string;
 }
 
-type TypeText = "h1" | "h2" | "h3" | "bullet" | "list" | "p";
+export interface SectionOfClass {
+	_id: string;
+	title: string;
+	order: number;
+}
 
 export interface TextBox {
 	type: TypeText;
 	text: string;
+}
+export interface ClassOfSection {
+	_id: string;
+	title: string;
+	order: number;
+	content: TextBox[];
+	created: string;
 }

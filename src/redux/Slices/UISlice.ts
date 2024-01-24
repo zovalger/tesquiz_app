@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import UI_Settings from "@/config/UI_Settings";
 
 export const UISlice = createSlice({
-	name: "UI",
+	name: "UI_Settings",
 	initialState: UI_Settings,
 	reducers: {},
 });

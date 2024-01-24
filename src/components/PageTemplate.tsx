@@ -8,12 +8,14 @@ import { useAppSelector } from "@/redux/store";
 import AppBarModule from "./AppBarModule";
 
 interface props {
-	nameNavBar: string;
+	leftIcons?: React.ReactNode;
+	nameNavBar: React.ReactNode;
 	rightIcons?: React.ReactNode;
-	children: React.ReactNode;
+	children?: React.ReactNode;
 }
 
 export default function PageTemplate({
+	leftIcons,
 	nameNavBar,
 	rightIcons,
 	children,
@@ -22,27 +24,22 @@ export default function PageTemplate({
 
 	return (
 		<>
-			<AppBarModule name={nameNavBar} right={rightIcons} />
+			<AppBarModule left={leftIcons} name={nameNavBar} right={rightIcons} />
 
 			<Box
-				component="main"
 				sx={{
+					ml: { xs: 0, sm: `${UI_Settings.asidePanelWitdh}px` },
+					// mr: { xs: 0, sm: taskEditing ? `${TaskPanelWidth}px` : "" },
+					px: 2,
+					pt: 10,
+					pb: 10,
+					// position: "relative",
 					flexGrow: 1,
-					p: 3,
-					width: {
-						sm: `calc(100% - ${UI_Settings.asidePanelWitdh}px)`,
-					},
-					mr: {
-						sm: UI_Settings.rightPanelOpen
-							? `${UI_Settings.asideMultiToolsWidth}px`
-							: 0,
-					},
-					height: "100vh",
-					overflow: "hidden",
-					overflowY: "scroll",
+					// maxHeight: "99vh",
+
+					overflowY: "auto",
 				}}
 			>
-				<Toolbar />
 				{children}
 			</Box>
 		</>

@@ -3,12 +3,16 @@ import { configureStore } from "@reduxjs/toolkit";
 import textBoxEditorReducer from "./Slices/TextEditorSlice";
 import userReducer from "./Slices/UserSlice";
 import UIReducer from "./Slices/UISlice";
+import sectionsReducer from "./Slices/SectionsSlice";
+import classOfSectionReducer from "./Slices/ClassForSectionSlice";
 
 export const store = configureStore({
 	reducer: {
 		textBoxEditor: textBoxEditorReducer,
 		user: userReducer,
 		UI_Settings: UIReducer,
+		sections: sectionsReducer,
+		classForSection: classOfSectionReducer,
 	},
 });
 

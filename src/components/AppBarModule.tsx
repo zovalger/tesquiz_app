@@ -12,7 +12,7 @@ import { useAppSelector } from "@/redux/store";
 
 interface AppBarModule {
 	left?: React.ReactNode;
-	name: string;
+	name: React.ReactNode;
 	right?: React.ReactNode;
 }
 
