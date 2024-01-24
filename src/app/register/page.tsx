@@ -40,7 +40,7 @@ const Page = () => {
 				values
 			);
 
-			// router.push(RouterLinks.admin.dashboard);
+			router.push(RouterLinks.student.login);
 		} catch (error) {
 			console.log(error);
 			setSubmitting(false);

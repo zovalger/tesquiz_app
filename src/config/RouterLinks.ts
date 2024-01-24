@@ -8,6 +8,7 @@ const RouterLinks = {
 	admin: {
 		login_admin: "/user/login_admin",
 		dashboard: "/user/admin/dashboard",
+		sections:"/user/admin/sections"
 	},
 };
 

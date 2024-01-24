@@ -2,11 +2,13 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import textBoxEditorReducer from "./Slices/TextEditorSlice";
 import userReducer from "./Slices/UserSlice";
+import UIReducer from "./Slices/UISlice";
 
 export const store = configureStore({
 	reducer: {
 		textBoxEditor: textBoxEditorReducer,
 		user: userReducer,
+		UI_Settings: UIReducer,
 	},
 });
 

@@ -14,8 +14,11 @@ export default function Home() {
 				<Button>dashboard</Button>
 			</Link>
 			<Link href={RouterLinks.student.login}>
-				
 				<Button>login</Button>
+			</Link>
+
+			<Link href={RouterLinks.admin.sections}>
+				<Button>secciones de clase (admin)</Button>
 			</Link>
 		</>
 	);
