@@ -16,6 +16,15 @@ export interface AdminUserData extends userData {
 	permissions: Array<String>;
 }
 
+export interface RegisterStudentData {
+	firstName: string;
+	lastName: string;
+	username: string;
+	email: string;
+	password: string;
+	repeatPassword: string;
+}
+
 type TypeText = "h1" | "h2" | "h3" | "bullet" | "list" | "p";
 
 export interface TextBox {
