@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useTheme } from "@mui/material/styles";
 import Zoom from "@mui/material/Zoom";
 import Fab from "@mui/material/Fab";
@@ -15,15 +15,24 @@ import PageTemplate from "@/components/PageTemplate";
 import useGetClassOfSection from "@/hooks/useGetClassOfSection";
 import { Skeleton } from "@mui/material";
 import ClassItem from "@/components/ClassItem";
+import { useRouter } from "next/navigation";
+import RouterLinks from "@/config/RouterLinks";
 
 const Page = () => {
-	const [loanding, data] = useGetClassOfSection();
+	const router = useRouter();
+
+	const classForSection = useAppSelector((state) => state.classForSection);
+	const [error, loanding, data] = useGetClassOfSection();
 	const theme = useTheme();
 
 	const transitionDuration = {
 		enter: theme.transitions.duration.enteringScreen,
 		exit: theme.transitions.duration.leavingScreen,
 	};
+
+	useEffect(() => {
+		if (!classForSection.sectionId) router.replace(RouterLinks.admin.sections);
+	}, []);
 
 	return (
 		<>
@@ -42,10 +51,10 @@ const Page = () => {
 			>
 				{loanding ? (
 					<Skeleton variant="rounded" height={60} />
-				) : data !== null ? (
-					data.map((s) => <ClassItem key={uuid()} data={s} />)
+				) : error ? (
+					"Error al optener datos"
 				) : (
-					"error"
+					data.map((s) => <ClassItem key={uuid()} data={s} />)
 				)}
 
 				<Box sx={{ position: "fixed", right: 10, bottom: 10 }}>

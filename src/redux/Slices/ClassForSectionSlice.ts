@@ -7,7 +7,7 @@ interface IClassesForSection {
 	classes: ClassOfSection[];
 }
 const initialState: IClassesForSection = {
-	sectionId: "sdasdsa",
+	sectionId: "",
 
 	classes: [
 		{

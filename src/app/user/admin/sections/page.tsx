@@ -14,7 +14,6 @@ import { useAppSelector } from "@/redux/store";
 import PageTemplate from "@/components/PageTemplate";
 
 const Page = () => {
-	const UI_Settings = useAppSelector((state) => state.UI_Settings);
 	const sections = useAppSelector((state) => state.sections);
 	const theme = useTheme();
 
