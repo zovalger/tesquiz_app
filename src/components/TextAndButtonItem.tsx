@@ -21,10 +21,10 @@ const TextAndButtonItem = ({ onClick, text, buttons }: props) => {
 		<Box
 			onClick={(e) => {
 				if (!onClick) return;
-
 				e.stopPropagation();
 				onClick();
 			}}
+
 			sx={{
 				display: "flex",
 				borderRadius: 3,

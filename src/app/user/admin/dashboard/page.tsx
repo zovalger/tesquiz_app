@@ -2,13 +2,15 @@
 
 import { v4 as uuid } from "uuid";
 import TextEditorInput from "@/components/TextEditorInput";
-import { Container, Typography } from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
 import { useAppSelector } from "@/redux/store";
 import React, { useState } from "react";
 import { DndContext } from "@dnd-kit/core";
 
 import { Droppable } from "./Droppable";
 import { Draggable } from "./Draggable";
+import Link from "next/link";
+import RouterLinks from "@/config/RouterLinks";
 
 export default function Home() {
 	const textBoxEditor = useAppSelector((state) => state.textBoxEditor);
@@ -27,27 +29,15 @@ export default function Home() {
 
 	return (
 		<>
-			<DndContext onDragEnd={handleDragEnd}>
-				{parent === null ? draggableMarkup : null}
+		
 
-				{containers.map((id) => (
-					// We updated the Droppable component so it would accept an `id`
-					// prop and pass it to `useDroppable`
-					<Droppable key={id} id={id}>
-						{parent === id ? draggableMarkup : "Drop here"}
-					</Droppable>
-				))}
-			</DndContext>
+			<h1>admin</h1>
 
-			<Container sx={{ textAlign: "center", bgcolor: "#090c22ff" }}>
-				<Typography variant="h1" component="span" sx={{ color: "#fff" }}>
-					TES
-				</Typography>
-				<Typography variant={"h1"} component="span" sx={{ color: "#1d61b0ff" }}>
-					QUIZ
-				</Typography>
-			</Container>
+	
 
+			<Link href={RouterLinks.admin.sections}>
+				<Button>secciones de clase (admin)</Button>
+			</Link>
 			{textBoxEditor.map((t, i) => (
 				<TextEditorInput key={uuid()} index={i} data={t} />
 			))}

@@ -3,24 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { SectionOfClass } from "../../../types";
 
 const initialState: SectionOfClass[] = [
-	{ _id: "s", title: "caracteres", order: 2 },
-	{ _id: "2", title: "caracteres", order: 2 },
-	{ _id: "2", title: "caracteres", order: 2 },
-	{ _id: "2", title: "caracteres", order: 2 },
-	{ _id: "2", title: "caracteres", order: 2 },
-	{ _id: "2", title: "caracteres", order: 2 },
-	{ _id: "2", title: "caracteres", order: 2 },
-	{ _id: "2", title: "caracteres", order: 2 },
-	{ _id: "2", title: "caracteres", order: 2 },
-	{ _id: "2", title: "caracteres", order: 2 },
-	{ _id: "2", title: "caracteres", order: 2 },
-	{ _id: "2", title: "caracteres", order: 2 },
-	{ _id: "2", title: "caracteres", order: 2 },
-	{ _id: "2", title: "caracteres", order: 2 },
-	{ _id: "2", title: "caracteres", order: 2 },
-	{ _id: "2", title: "caracteres", order: 2 },
-	{ _id: "2", title: "caracteres", order: 2 },
-	{ _id: "2", title: "caracteres", order: 2 },
+
 ];
 
 export const sectionsSlice = createSlice({
