@@ -11,14 +11,21 @@ export const initialTextBox: TextBox = {
 	type: TypeText.p,
 	text: "",
 };
+interface s {
+	textEditorSelected: number;
+	data: ClassOfSection;
+}
 
-const initialState: ClassOfSection = {
-	_id: "",
-	title: "",
-	order: 0,
-	content: [],
-	created: "",
-	section_id: "",
+const initialState: s = {
+	textEditorSelected: 0,
+	data: {
+		_id: "",
+		title: "",
+		order: 0,
+		content: [],
+		created: "",
+		section_id: "",
+	},
 };
 
 export const classEditorSlice = createSlice({
@@ -26,10 +33,11 @@ export const classEditorSlice = createSlice({
 	initialState,
 	reducers: {
 		setClassData: (state, action: PayloadAction<ClassOfSection>) => {
-			return action.payload;
+			return { ...state, data: action.payload };
 		},
 		insertNewTextBoxEditor: (state, action: PayloadAction<number>) => {
-			const { content } = state;
+			const { data } = state;
+			const { content } = data;
 
 			const l = action.payload + 1;
 
@@ -42,21 +50,23 @@ export const classEditorSlice = createSlice({
 			return { ...state, content: c };
 		},
 		deleteTextBoxEditor: (state, action: PayloadAction<number>) => {
-			const { content } = state;
+			const { data } = state;
+			const { content } = data;
 
 			const c = content.filter((v, i) => i !== action.payload);
 
 			return { ...state, content: c };
 		},
 		upTextBox: (state, action: PayloadAction<number>) => {
-			const { content } = state;
-
+			const { data } = state;
+			const { content } = data;
 			const c = upItemInArray(content, action.payload);
 
 			return { ...state, content: c };
 		},
 		downTextBox: (state, action: PayloadAction<number>) => {
-			const { content } = state;
+			const { data } = state;
+			const { content } = data;
 
 			const c = downItemInArray(content, action.payload);
 
@@ -67,7 +77,8 @@ export const classEditorSlice = createSlice({
 			action: PayloadAction<{ index: number; text: string }>
 		) => {
 			const { index, text } = action.payload;
-			const { content } = state;
+			const { data } = state;
+			const { content } = data;
 
 			const c = content.map((v, i) =>
 				i === index ? { ...v, text: text.trim() } : v

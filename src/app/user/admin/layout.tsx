@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Roles } from "../../../../enums";
 import RouterLinks from "@/config/RouterLinks";
 import { useEffect } from "react";
+import { DISABLE_AUTH } from "@/config";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 	const user = useAppSelector((state) => state.user);
@@ -16,8 +17,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 	// no ser estudiantes llevar landing
 
 	useEffect(() => {
-		if (user.role != Roles.admin)
-			return router.replace(RouterLinks.admin.login);
+		if (!DISABLE_AUTH)
+			if (user.role != Roles.admin)
+				return router.replace(RouterLinks.admin.login);
 	}, [user]);
 
 	return <>{children}</>;
