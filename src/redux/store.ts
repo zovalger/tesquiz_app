@@ -1,6 +1,5 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
-import textBoxEditorReducer from "./Slices/TextEditorSlice";
 import classEditorReducer from "./Slices/ClassEditorSlice";
 import userReducer from "./Slices/UserSlice";
 import UIReducer from "./Slices/UISlice";
@@ -9,7 +8,6 @@ import classOfSectionReducer from "./Slices/ClassForSectionSlice";
 
 export const store = configureStore({
 	reducer: {
-		textBoxEditor: textBoxEditorReducer,
 		classEditor: classEditorReducer,
 		user: userReducer,
 		UI_Settings: UIReducer,

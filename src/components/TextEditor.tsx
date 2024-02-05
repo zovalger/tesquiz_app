@@ -12,13 +12,14 @@ import AddIcon from "@mui/icons-material/Add";
 
 import { TextBox } from "../../types";
 import MoreOptionButtonVariantText from "./MoreOptionButtonVariantText";
+
+import { useAppDispatch, useAppSelector } from "@/redux/store";
 import {
 	chageTextInBox,
 	downTextBox,
-	insertTextBoxEditor,
+	insertNewTextBoxEditor,
 	upTextBox,
-} from "@/redux/Slices/TextEditorSlice";
-import { useAppDispatch, useAppSelector } from "@/redux/store";
+} from "@/redux/Slices/ClassEditorSlice";
 
 interface props {
 	index: number;
@@ -26,7 +27,7 @@ interface props {
 }
 
 const TextEditor = ({ index, data }: props) => {
-	const textBoxEditor = useAppSelector((state) => state.textBoxEditor);
+	const classEditor = useAppSelector((state) => state.classEditor);
 	const dispatch = useAppDispatch();
 
 	const [text, setText] = useState(data.text);
@@ -39,7 +40,10 @@ const TextEditor = ({ index, data }: props) => {
 		dispatch(chageTextInBox({ index, text }));
 	};
 
-
+	const onEnter = () => {
+		onBlur();
+		dispatch(insertNewTextBoxEditor(index));
+	};
 
 	return (
 		<>
@@ -52,6 +56,28 @@ const TextEditor = ({ index, data }: props) => {
 					mt: 2,
 				}}
 			>
+				<Box sx={{ flexGrow: 1 }}>
+					<InputBase
+						placeholder="text here"
+						id={`${index}`}
+						multiline
+						fullWidth
+						inputProps={{ style: { height: "100%" } }}
+						sx={{ height: "100%" }}
+						value={text}
+						onBlur={() => {
+							onBlur();
+						}}
+						onChange={({ target: { value } }) => onChange(value)}
+						onKeyDown={(e) => {
+							if (e.key == "Enter") {
+								e.preventDefault();
+								onEnter();
+							}
+						}}
+					/>
+				</Box>
+
 				<Box sx={{ display: "flex", flexDirection: "column" }}>
 					<MoreOptionButtonVariantText />
 
@@ -71,7 +97,7 @@ const TextEditor = ({ index, data }: props) => {
 						type="button"
 						aria-label="search"
 						onClick={() => dispatch(downTextBox(index))}
-						disabled={index == textBoxEditor.length - 1}
+						disabled={index == classEditor.content.length - 1}
 					>
 						<ArrowDropDownIcon />
 					</IconButton>
@@ -80,31 +106,10 @@ const TextEditor = ({ index, data }: props) => {
 						sx={{ borderRadius: 0 }}
 						size="small"
 						aria-label="menu"
-						onClick={() => dispatch(insertTextBoxEditor(index))}
+						onClick={() => dispatch(insertNewTextBoxEditor(index))}
 					>
 						<AddIcon />
 					</IconButton>
-				</Box>
-
-				<Box sx={{ flexGrow: 1 }}>
-
-					<InputBase
-						placeholder="text here"
-						id={`${index}`}
-						multiline
-						fullWidth
-						inputProps={{ style: { height: "100%" } }}
-						sx={{ height: "100%" }}
-						value={text}
-						onBlur={onBlur}
-						onChange={({ target: { value } }) => onChange(value)}
-						onKeyDown={(e)=>{
-							if(e.key== "Enter") {e.preventDefault()
-								console.log("hola");
-							}
-							
-						}}
-					/>
 				</Box>
 
 				{/* // ToDo: enter crear otro texbox si es el ultimo si es uno entremedio solo guardar */}

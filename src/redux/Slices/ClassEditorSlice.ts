@@ -28,39 +28,76 @@ export const classEditorSlice = createSlice({
 		setClassData: (state, action: PayloadAction<ClassOfSection>) => {
 			return action.payload;
 		},
-		// insertTextBoxEditor: (state, action: PayloadAction<number>) => {
-		// 	const l = action.payload + 1;
+		insertNewTextBoxEditor: (state, action: PayloadAction<number>) => {
+			const { content } = state;
 
-		// 	const before = state.slice(0, l);
+			const l = action.payload + 1;
 
-		// 	const after = state.slice(l);
-		// 	return [...before, initialTextBox, ...after];
-		// },
-		// upTextBox: (state, action: PayloadAction<number>) => {
-		// 	return upItemInArray(state, action.payload);
-		// },
-		// downTextBox: (state, action: PayloadAction<number>) => {
-		// 	return downItemInArray(state, action.payload);
-		// },
-		// chageTextInBox: (
-		// 	state,
-		// 	action: PayloadAction<{ index: number; text: string }>
-		// ) => {
-		// 	const { index, text } = action.payload;
+			const before = content.slice(0, l);
 
-		// 	state[index] = { ...state[index], text: text.trim() };
-		// 	return state;
-		// },
+			const after = content.slice(l);
+
+			const c = [...before, initialTextBox, ...after];
+
+			return { ...state, content: c };
+		},
+		deleteTextBoxEditor: (state, action: PayloadAction<number>) => {
+			const { content } = state;
+
+			const c = content.filter((v, i) => i !== action.payload);
+
+			return { ...state, content: c };
+		},
+		upTextBox: (state, action: PayloadAction<number>) => {
+			const { content } = state;
+
+			const c = upItemInArray(content, action.payload);
+
+			return { ...state, content: c };
+		},
+		downTextBox: (state, action: PayloadAction<number>) => {
+			const { content } = state;
+
+			const c = downItemInArray(content, action.payload);
+
+			return { ...state, content: c };
+		},
+		chageTextInBox: (
+			state,
+			action: PayloadAction<{ index: number; text: string }>
+		) => {
+			const { index, text } = action.payload;
+			const { content } = state;
+
+			const c = content.map((v, i) =>
+				i === index ? { ...v, text: text.trim() } : v
+			);
+
+			return { ...state, content: c };
+		},
+
+		chageTypeTextBox: (
+			state,
+			action: PayloadAction<{ index: number; type: TypeText }>
+		) => {
+			const { index, type } = action.payload;
+			const { content } = state;
+
+			const c = content.map((v, i) => (i === index ? { ...v, type } : v));
+
+			return { ...state, content: c };
+		},
 	},
 });
 
 // Action creators are generated for each case reducer function
 export const {
 	setClassData,
-	// insertTextBoxEditor,
-	// upTextBox,
-	// downTextBox,
-	// chageTextInBox,
+	insertNewTextBoxEditor,
+	upTextBox,
+	downTextBox,
+	chageTextInBox,
+	chageTypeTextBox,
 } = classEditorSlice.actions;
 
 export default classEditorSlice.reducer;

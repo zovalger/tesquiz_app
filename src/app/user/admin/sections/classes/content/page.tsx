@@ -11,7 +11,6 @@ import TextEditor from "@/components/TextEditor";
 
 const Page = () => {
 	const router = useRouter();
-	const dispatch = useAppDispatch();
 	const classEditor = useAppSelector((state) => state.classEditor);
 
 	useEffect(() => {
