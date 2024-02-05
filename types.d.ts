@@ -8,6 +8,7 @@ export interface userData {
 	email: string;
 	password: string;
 	role: Roles;
+	token: string;
 }
 
 export interface StudentUserData extends userData {}
@@ -41,4 +42,5 @@ export interface ClassOfSection {
 	order: number;
 	content: TextBox[];
 	created: string;
+	section_id: string;
 }

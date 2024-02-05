@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useTheme } from "@mui/material/styles";
 import Zoom from "@mui/material/Zoom";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
@@ -12,10 +11,12 @@ import AppBarModule from "@/components/AppBarModule";
 import SectionItem from "@/components/SectionItem";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import PageTemplate from "@/components/PageTemplate";
-import TitleModalForm from "@/components/TitleModalForm";
+import TitleModalFormSection from "@/components/TitleModalFormSection";
 import useGetSections from "@/hooks/useGetSections";
 import { Skeleton } from "@mui/material";
 import { setSetionsList } from "@/redux/Slices/SectionsSlice";
+import RouterLinks from "@/config/RouterLinks";
+import ButtonAddLeftBotton from "@/components/ButtonAddLeftBotton";
 
 const Page = () => {
 	const dispatch = useAppDispatch();
@@ -23,17 +24,11 @@ const Page = () => {
 	const sections = useAppSelector((state) => state.sections);
 
 	const [error, loanding, data] = useGetSections();
-	const theme = useTheme();
 
 	const [openTitleModal, setOpenTitleModal] = useState(false);
 
-	const s = (a: boolean) => {
+	const changeOpenTitleModal = (a: boolean) => {
 		setOpenTitleModal(a);
-	};
-
-	const transitionDuration = {
-		enter: theme.transitions.duration.enteringScreen,
-		exit: theme.transitions.duration.leavingScreen,
 	};
 
 	useEffect(() => {
@@ -44,6 +39,7 @@ const Page = () => {
 		<>
 			<>
 				<PageTemplate
+					ToBackPage={RouterLinks.admin.dashboard}
 					nameNavBar={
 						loanding ? (
 							<Skeleton
@@ -52,7 +48,7 @@ const Page = () => {
 								width={"300px"}
 							/>
 						) : (
-							"clases de algo"
+							"Secciones"
 						)
 					}
 				>
@@ -64,19 +60,13 @@ const Page = () => {
 						sections.map((s) => <SectionItem key={uuid()} data={s} />)
 					)}
 
-					<Box sx={{ position: "fixed", right: 10, bottom: 10 }}>
-						<Zoom
-							// key={"1"}
-							in={true}
-							timeout={transitionDuration}
-							unmountOnExit
-						>
-							<Fab color="primary">
-								<AddIcon />
-							</Fab>
-						</Zoom>
-					</Box>
-					{openTitleModal && <TitleModalForm onClose={() => s(false)} />}
+					<ButtonAddLeftBotton onClick={() => changeOpenTitleModal(true)} />
+
+					{openTitleModal && (
+						<TitleModalFormSection
+							onClose={() => changeOpenTitleModal(false)}
+						/>
+					)}
 				</PageTemplate>
 			</>
 		</>

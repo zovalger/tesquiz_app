@@ -6,7 +6,7 @@ import { RootState } from "../store";
 import { downItemInArray, upItemInArray } from "@/utils";
 import { Roles } from "../../../enums";
 
-const nullUser = {
+const nullUser: AdminUserData | StudentUserData = {
 	_id: "",
 	firstName: "",
 	lastName: "",
@@ -14,6 +14,7 @@ const nullUser = {
 	email: "",
 	password: "",
 	role: Roles.null,
+	token: "",
 };
 
 const initialState: AdminUserData | StudentUserData = nullUser;

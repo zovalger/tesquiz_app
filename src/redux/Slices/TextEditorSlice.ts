@@ -4,11 +4,12 @@ import { TextBox } from "../../../types";
 import TextBoxData from "@/test/testData";
 import { RootState } from "../store";
 import { downItemInArray, upItemInArray } from "@/utils";
+import { TypeText } from "../../../enums";
 
 // export interface TextEditorState
 
 export const initialTextBox: TextBox = {
-	type: "p",
+	type: TypeText.p,
 	text: "",
 };
 

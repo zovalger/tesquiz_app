@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import Zoom from "@mui/material/Zoom";
 import Fab from "@mui/material/Fab";
@@ -10,33 +10,49 @@ import { v4 as uuid } from "uuid";
 
 import AppBarModule from "@/components/AppBarModule";
 import SectionItem from "@/components/SectionItem";
-import { useAppSelector } from "@/redux/store";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
 import PageTemplate from "@/components/PageTemplate";
 import useGetClassOfSection from "@/hooks/useGetClassOfSection";
 import { Skeleton } from "@mui/material";
 import ClassItem from "@/components/ClassItem";
 import { useRouter } from "next/navigation";
 import RouterLinks from "@/config/RouterLinks";
+import TitleModalFormClasses from "@/components/TitleModalFormClasses";
+import ButtonAddLeftBotton from "@/components/ButtonAddLeftBotton";
+import { setClassesOfSection } from "@/redux/Slices/ClassForSectionSlice";
 
 const Page = () => {
 	const router = useRouter();
 
+	const dispatch = useAppDispatch();
 	const classForSection = useAppSelector((state) => state.classForSection);
-	const [error, loanding, data] = useGetClassOfSection();
-	const theme = useTheme();
+	const sections = useAppSelector((state) => state.sections);
 
-	const transitionDuration = {
-		enter: theme.transitions.duration.enteringScreen,
-		exit: theme.transitions.duration.leavingScreen,
+	const [error, loanding, data] = useGetClassOfSection();
+
+	const [openTitleModal, setOpenTitleModal] = useState(false);
+	const changeOpenTitleModal = (a: boolean) => {
+		setOpenTitleModal(a);
 	};
 
+	const [sectiontitle, setSectiontitle] = useState("");
+
 	useEffect(() => {
-		if (!classForSection.sectionId) router.replace(RouterLinks.admin.sections);
-	}, []);
+		if (!classForSection.section_id) router.replace(RouterLinks.admin.sections);
+
+		const a = sections.find((v) => v._id === classForSection.section_id);
+
+		if (a) setSectiontitle(a.title);
+	}, [classForSection.section_id]);
+
+	useEffect(() => {
+		if (data.length) dispatch(setClassesOfSection(data));
+	}, [data]);
 
 	return (
 		<>
 			<PageTemplate
+				ToBackPage={RouterLinks.admin.sections}
 				nameNavBar={
 					loanding ? (
 						<Skeleton
@@ -45,7 +61,7 @@ const Page = () => {
 							width={"300px"}
 						/>
 					) : (
-						"clases de algo"
+						sectiontitle
 					)
 				}
 			>
@@ -54,21 +70,16 @@ const Page = () => {
 				) : error ? (
 					"Error al optener datos"
 				) : (
-					data.map((s) => <ClassItem key={uuid()} data={s} />)
+					classForSection.classes.map((s) => (
+						<ClassItem key={uuid()} data={s} />
+					))
 				)}
 
-				<Box sx={{ position: "fixed", right: 10, bottom: 10 }}>
-					<Zoom
-						// key={"1"}
-						in={true}
-						timeout={transitionDuration}
-						unmountOnExit
-					>
-						<Fab color="primary">
-							<AddIcon />
-						</Fab>
-					</Zoom>
-				</Box>
+				<ButtonAddLeftBotton onClick={() => changeOpenTitleModal(true)} />
+
+				{openTitleModal && (
+					<TitleModalFormClasses onClose={() => changeOpenTitleModal(false)} />
+				)}
 			</PageTemplate>
 		</>
 	);

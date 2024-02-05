@@ -8,6 +8,7 @@ import { useAppSelector } from "@/redux/store";
 import AppBarModule from "./AppBarModule";
 
 interface props {
+	ToBackPage?: string;
 	leftIcons?: React.ReactNode;
 	nameNavBar: React.ReactNode;
 	rightIcons?: React.ReactNode;
@@ -15,6 +16,7 @@ interface props {
 }
 
 export default function PageTemplate({
+	ToBackPage,
 	leftIcons,
 	nameNavBar,
 	rightIcons,
@@ -24,7 +26,12 @@ export default function PageTemplate({
 
 	return (
 		<>
-			<AppBarModule left={leftIcons} name={nameNavBar} right={rightIcons} />
+			<AppBarModule
+				ToBackPage={ToBackPage}
+				left={leftIcons}
+				name={nameNavBar}
+				right={rightIcons}
+			/>
 
 			<Box
 				sx={{

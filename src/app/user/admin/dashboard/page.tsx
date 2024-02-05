@@ -38,9 +38,9 @@ export default function Home() {
 			<Link href={RouterLinks.admin.sections}>
 				<Button>secciones de clase (admin)</Button>
 			</Link>
-			{textBoxEditor.map((t, i) => (
+			{/* {textBoxEditor.map((t, i) => (
 				<TextEditorInput key={uuid()} index={i} data={t} />
-			))}
+			))} */}
 		</>
 	);
 }

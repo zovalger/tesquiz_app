@@ -24,7 +24,6 @@ const TextAndButtonItem = ({ onClick, text, buttons }: props) => {
 				e.stopPropagation();
 				onClick();
 			}}
-
 			sx={{
 				display: "flex",
 				borderRadius: 3,

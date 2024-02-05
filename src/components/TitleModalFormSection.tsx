@@ -10,6 +10,12 @@ import { SectionOfClass } from "../../types";
 import axios from "axios";
 import { SERVER_URL } from "@/config";
 import Button from "@mui/material/Button";
+import API_SERVER_Endpoints from "@/config/API_SERVER_Endpoints";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import {
+	addSetionsToList,
+	updateSetionInList,
+} from "@/redux/Slices/SectionsSlice";
 
 // *****************************************************************************
 // 											form de referencias
@@ -20,12 +26,12 @@ interface creationSection extends Omit<SectionOfClass, "_id" | "order"> {}
 interface Props {
 	data?: creationSection;
 	onClose(): void;
-
-	// onSubmit(formData: ProductReference): void;
-	// onDelete(formData: ProductReference): void;
 }
 
-export default function TitleModalForm({ data, onClose }: Props) {
+export default function TitleModalFormSection({ data, onClose }: Props) {
+	const dispatch = useAppDispatch();
+	const { token } = useAppSelector((state) => state.user);
+
 	const formik = useFormik<creationSection>({
 		initialValues: data || { title: "" },
 
@@ -33,25 +39,27 @@ export default function TitleModalForm({ data, onClose }: Props) {
 			title: Yup.string().trim().required().min(3),
 		}),
 
-		onSubmit: async (
-			formData,
-			{ setSubmitting }: FormikHelpers<creationSection>
-		) => {
+		onSubmit: async (formData) => {
 			try {
-				setSubmitting(true);
-				const res = await axios.post(`${SERVER_URL}/sections`, formData);
+				const options = { headers: { "x-access-token": token } };
 
-				// dispatch(setUserData(res.data));
+				const res = data
+					? await axios.post(
+							API_SERVER_Endpoints.admin.sections.update,
+							formData,
+							options
+					  )
+					: await axios.post(
+							API_SERVER_Endpoints.admin.sections.create,
+							formData,
+							options
+					  );
 
-				// router.push(RouterLinks.student.dashboard);
-
-				setSubmitting(false);
+				if (data) dispatch(updateSetionInList(res.data));
+				else dispatch(addSetionsToList(res.data));
+				
 			} catch (error) {
 				console.log(error);
-
-				// setLoginError(true);
-
-				setSubmitting(false);
 			}
 
 			onClose();
@@ -80,9 +88,6 @@ export default function TitleModalForm({ data, onClose }: Props) {
 						// border: "2px solid #000",
 						boxShadow: 24,
 						p: 4,
-				
-				
-						
 					}}
 					component={"form"}
 					onSubmit={(e) => {
@@ -91,13 +96,13 @@ export default function TitleModalForm({ data, onClose }: Props) {
 						formik.handleSubmit();
 					}}
 				>
-					<Grid component={"form"} maxWidth={"800px"} container spacing={1}>
+					<Grid maxWidth={"800px"} container spacing={1}>
 						<Grid xs={12}>
 							<TextField
 								label="Título de sección"
 								variant="outlined"
-								name="text"
-								type="title"
+								name="title"
+								type="text"
 								fullWidth
 								value={formik.values.title}
 								onChange={formik.handleChange}
@@ -111,12 +116,11 @@ export default function TitleModalForm({ data, onClose }: Props) {
 								fullWidth
 								sx={{
 									p: 1.5,
-									mt:2
+									mt: 2,
 								}}
 								type="submit"
-								onClick={() => formik.submitForm()}
 							>
-								Crear
+								{data? "Actualizar":"Crear"}
 							</Button>
 						</Grid>
 					</Grid>

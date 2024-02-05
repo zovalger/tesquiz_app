@@ -5,7 +5,7 @@ import axios from "axios";
 import API_SERVER_Endpoints from "@/config/API_SERVER_Endpoints";
 
 const useGetSections = (): [boolean, boolean, SectionOfClass[]] => {
-	const sections = useAppSelector((state) => state.sections);
+	const { token } = useAppSelector((state) => state.user);
 
 	const [data, setData] = useState<SectionOfClass[]>([]);
 	const [loanding, setLoanding] = useState(true);
@@ -21,8 +21,7 @@ const useGetSections = (): [boolean, boolean, SectionOfClass[]] => {
 		try {
 			const res = await axios.get(API_SERVER_Endpoints.admin.sections.getList, {
 				headers: {
-					"x-access-token":
-						"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YWYzMzU4YTRiYzlhNGQwYTJjMTcxNyIsImlhdCI6MTcwNzAxMTMwOSwiZXhwIjoxNzA3MDE0OTA5fQ.1XknKR5qo0N-_0raF9HMybGvdGlvudytBPDfLHOsOJo",
+					"x-access-token": token,
 				},
 			});
 			setData(res.data);

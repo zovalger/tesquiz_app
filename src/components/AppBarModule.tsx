@@ -5,21 +5,30 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import React from "react";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { useAppSelector } from "@/redux/store";
+import { useRouter } from "next/navigation";
 
 // import { asideMultiToolsWidth, asidePanelDashboardWidth } from "@/config";
 // import { useGlobalContext } from "@/contexts/Global.context";
 
 interface AppBarModule {
+	ToBackPage?: string;
 	left?: React.ReactNode;
 	name: React.ReactNode;
 	right?: React.ReactNode;
 }
 
-export default function AppBarModule({ left, name, right }: AppBarModule) {
+export default function AppBarModule({
+	ToBackPage,
+	left,
+	name,
+	right,
+}: AppBarModule) {
 	// const { handleAsidePanelToggle, asideMultiToolsOpen } = useGlobalContext();
 	const UI_Settings = useAppSelector((state) => state.UI_Settings);
 
+	const router = useRouter();
 	return (
 		<AppBar
 			position="fixed"
@@ -37,7 +46,24 @@ export default function AppBarModule({ left, name, right }: AppBarModule) {
 			}}
 		>
 			<Toolbar>
-				{left || (
+				{left ? (
+					<>
+						sdsds
+						{left}
+					</>
+				) : ToBackPage ? (
+					<IconButton
+						color="inherit"
+						aria-label="open drawer"
+						edge="start"
+						onClick={() => {
+							router.replace(ToBackPage);
+						}}
+						sx={{ mr: 2 }}
+					>
+						<ChevronLeftIcon />
+					</IconButton>
+				) : (
 					<IconButton
 						color="inherit"
 						aria-label="open drawer"
