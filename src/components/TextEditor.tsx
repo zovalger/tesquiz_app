@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import Divider from "@mui/material/Divider";
@@ -16,8 +16,10 @@ import MoreOptionButtonVariantText from "./MoreOptionButtonVariantText";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import {
 	chageTextInBox,
+	deleteTextBoxEditor,
 	downTextBox,
 	insertNewTextBoxEditor,
+	setTextEditorSelected,
 	upTextBox,
 } from "@/redux/Slices/ClassEditorSlice";
 
@@ -32,17 +34,40 @@ const TextEditor = ({ index, data }: props) => {
 
 	const [text, setText] = useState(data.text);
 
+	const inp = useRef<HTMLInputElement>(null);
+
+	useEffect(() => {
+		if (classEditor.textEditorSelected === index)
+			if (inp.current) {inp.current.focus();
+				inp.current.selectionStart = text.length;
+				inp.current.selectionEnd = text.length;
+			}
+	}, [classEditor.textEditorSelected]);
+
 	const onChange = (value: string) => {
 		setText(value);
 	};
 
 	const onBlur = () => {
+		if (inp.current) inp.current.blur();
+
+		if (!text) {
+			dispatch(setTextEditorSelected(null));
+			dispatch(setTextEditorSelected(index -1));
+
+			return dispatch(deleteTextBoxEditor(index));
+		}
+
 		dispatch(chageTextInBox({ index, text }));
 	};
 
 	const onEnter = () => {
 		onBlur();
+
+		if (!text) return;
+
 		dispatch(insertNewTextBoxEditor(index));
+		dispatch(setTextEditorSelected(index + 1));
 	};
 
 	return (
@@ -65,6 +90,7 @@ const TextEditor = ({ index, data }: props) => {
 						inputProps={{ style: { height: "100%" } }}
 						sx={{ height: "100%" }}
 						value={text}
+						inputRef={inp}
 						onBlur={() => {
 							onBlur();
 						}}
@@ -73,6 +99,12 @@ const TextEditor = ({ index, data }: props) => {
 							if (e.key == "Enter") {
 								e.preventDefault();
 								onEnter();
+							}
+							if (e.key == "Backspace") {
+								if (!text) {
+									e.preventDefault();
+									onBlur();
+								}
 							}
 						}}
 					/>
@@ -97,7 +129,7 @@ const TextEditor = ({ index, data }: props) => {
 						type="button"
 						aria-label="search"
 						onClick={() => dispatch(downTextBox(index))}
-						disabled={index == classEditor.content.length - 1}
+						disabled={index == classEditor.data.content.length - 1}
 					>
 						<ArrowDropDownIcon />
 					</IconButton>

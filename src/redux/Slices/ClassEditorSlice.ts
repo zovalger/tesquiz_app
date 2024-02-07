@@ -12,12 +12,12 @@ export const initialTextBox: TextBox = {
 	text: "",
 };
 interface s {
-	textEditorSelected: number;
+	textEditorSelected: number | null;
 	data: ClassOfSection;
 }
 
 const initialState: s = {
-	textEditorSelected: 0,
+	textEditorSelected: null,
 	data: {
 		_id: "",
 		title: "",
@@ -35,9 +35,18 @@ export const classEditorSlice = createSlice({
 		setClassData: (state, action: PayloadAction<ClassOfSection>) => {
 			return { ...state, data: action.payload };
 		},
-		insertNewTextBoxEditor: (state, action: PayloadAction<number>) => {
+		insertNewTextBoxEditor: (
+			state,
+			action: PayloadAction<number | undefined>
+		) => {
 			const { data } = state;
 			const { content } = data;
+
+			if (!action.payload)
+				return {
+					...state,
+					data: { ...data, content: [...content, initialTextBox] },
+				};
 
 			const l = action.payload + 1;
 
@@ -47,7 +56,7 @@ export const classEditorSlice = createSlice({
 
 			const c = [...before, initialTextBox, ...after];
 
-			return { ...state, content: c };
+			return { ...state, data: { ...data, content: c } };
 		},
 		deleteTextBoxEditor: (state, action: PayloadAction<number>) => {
 			const { data } = state;
@@ -55,14 +64,14 @@ export const classEditorSlice = createSlice({
 
 			const c = content.filter((v, i) => i !== action.payload);
 
-			return { ...state, content: c };
+			return { ...state, data: { ...data, content: c } };
 		},
 		upTextBox: (state, action: PayloadAction<number>) => {
 			const { data } = state;
 			const { content } = data;
 			const c = upItemInArray(content, action.payload);
 
-			return { ...state, content: c };
+			return { ...state, data: { ...data, content: c } };
 		},
 		downTextBox: (state, action: PayloadAction<number>) => {
 			const { data } = state;
@@ -70,7 +79,7 @@ export const classEditorSlice = createSlice({
 
 			const c = downItemInArray(content, action.payload);
 
-			return { ...state, content: c };
+			return { ...state, data: { ...data, content: c } };
 		},
 		chageTextInBox: (
 			state,
@@ -84,7 +93,7 @@ export const classEditorSlice = createSlice({
 				i === index ? { ...v, text: text.trim() } : v
 			);
 
-			return { ...state, content: c };
+			return { ...state, data: { ...data, content: c } };
 		},
 
 		chageTypeTextBox: (
@@ -92,11 +101,29 @@ export const classEditorSlice = createSlice({
 			action: PayloadAction<{ index: number; type: TypeText }>
 		) => {
 			const { index, type } = action.payload;
-			const { content } = state;
+			const { data } = state;
+			const { content } = data;
 
 			const c = content.map((v, i) => (i === index ? { ...v, type } : v));
 
-			return { ...state, content: c };
+			return { ...state, data: { ...data, content: c } };
+		},
+		setTextEditorSelected: (state, action: PayloadAction<number | null>) => {
+			const {
+				data: { content },
+			} = state;
+			const index = action.payload;
+
+			if (index === null) return { ...state, textEditorSelected: index };
+
+			const a =
+				index < 0 && !content.length
+					? null
+					: content.length && index > content.length - 1
+					? content.length - 1
+					: index;
+
+			return { ...state, textEditorSelected: index };
 		},
 	},
 });
@@ -105,6 +132,8 @@ export const classEditorSlice = createSlice({
 export const {
 	setClassData,
 	insertNewTextBoxEditor,
+	deleteTextBoxEditor,
+	setTextEditorSelected,
 	upTextBox,
 	downTextBox,
 	chageTextInBox,

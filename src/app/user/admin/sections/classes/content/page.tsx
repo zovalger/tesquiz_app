@@ -8,22 +8,39 @@ import PageTemplate from "@/components/PageTemplate";
 import { useRouter } from "next/navigation";
 import RouterLinks from "@/config/RouterLinks";
 import TextEditor from "@/components/TextEditor";
+import { IconButton } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import { insertNewTextBoxEditor } from "@/redux/Slices/ClassEditorSlice";
 
 const Page = () => {
 	const router = useRouter();
+	const dispatch = useAppDispatch();
+
 	const classEditor = useAppSelector((state) => state.classEditor);
 
 	useEffect(() => {
-		if (!classEditor._id) router.replace(RouterLinks.admin.sections);
+		if (!classEditor.data._id) router.replace(RouterLinks.admin.sections);
 	}, []);
 
 	return (
 		<>
 			<PageTemplate
 				ToBackPage={RouterLinks.admin.classOfSection}
-				nameNavBar={classEditor.title}
+				nameNavBar={classEditor.data.title}
+				rightIcons={<>
+				
+				
+				<IconButton
+						sx={{ borderRadius: 0 }}
+						size="small"
+						aria-label="menu"
+						onClick={() => dispatch(insertNewTextBoxEditor())}
+					>
+						<AddIcon />
+					</IconButton>
+				</>}
 			>
-				{classEditor.content.map((s, i) => (
+				{classEditor.data.content.map((s, i) => (
 					<TextEditor key={uuid()} data={s} index={i} />
 				))}
 
