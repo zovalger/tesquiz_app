@@ -11,4 +11,6 @@ export enum TypeText {
 	bullet = "bullet",
 	list = "list",
 	p = "p",
+	video = "video",
+	image = "image",
 }
