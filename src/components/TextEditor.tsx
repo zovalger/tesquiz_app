@@ -37,8 +37,9 @@ const TextEditor = ({ index, data }: props) => {
 	const inp = useRef<HTMLInputElement>(null);
 
 	useEffect(() => {
-		if (classEditor.textEditorSelected === index)
-			if (inp.current) {inp.current.focus();
+		if (inp.current)
+			if (classEditor.textEditorSelected === index) {
+				inp.current.focus();
 				inp.current.selectionStart = text.length;
 				inp.current.selectionEnd = text.length;
 			}
@@ -52,12 +53,12 @@ const TextEditor = ({ index, data }: props) => {
 		if (inp.current) inp.current.blur();
 
 		if (!text) {
-			dispatch(setTextEditorSelected(null));
-			dispatch(setTextEditorSelected(index -1));
+			dispatch(setTextEditorSelected(index - 1));
 
 			return dispatch(deleteTextBoxEditor(index));
 		}
 
+		dispatch(setTextEditorSelected(null));
 		dispatch(chageTextInBox({ index, text }));
 	};
 
@@ -81,6 +82,10 @@ const TextEditor = ({ index, data }: props) => {
 					mt: 2,
 				}}
 			>
+				<Box sx={{ display: "flex", flexDirection: "column" }}>
+					<MoreOptionButtonVariantText />
+				</Box>
+
 				<Box sx={{ flexGrow: 1 }}>
 					<InputBase
 						placeholder="text here"
@@ -111,8 +116,6 @@ const TextEditor = ({ index, data }: props) => {
 				</Box>
 
 				<Box sx={{ display: "flex", flexDirection: "column" }}>
-					<MoreOptionButtonVariantText />
-
 					<IconButton
 						sx={{ borderRadius: 0 }}
 						size="small"
@@ -134,14 +137,14 @@ const TextEditor = ({ index, data }: props) => {
 						<ArrowDropDownIcon />
 					</IconButton>
 
-					<IconButton
+					{/* <IconButton
 						sx={{ borderRadius: 0 }}
 						size="small"
 						aria-label="menu"
 						onClick={() => dispatch(insertNewTextBoxEditor(index))}
 					>
 						<AddIcon />
-					</IconButton>
+					</IconButton> */}
 				</Box>
 
 				{/* // ToDo: enter crear otro texbox si es el ultimo si es uno entremedio solo guardar */}

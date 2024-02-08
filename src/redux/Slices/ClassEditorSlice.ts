@@ -123,7 +123,7 @@ export const classEditorSlice = createSlice({
 					? content.length - 1
 					: index;
 
-			return { ...state, textEditorSelected: index };
+			return { ...state, textEditorSelected: a };
 		},
 	},
 });

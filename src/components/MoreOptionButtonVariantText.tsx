@@ -27,30 +27,6 @@ const MoreOptionButtonVariantText = () => {
 
 	// **************************** menu eliminar ****************************
 
-	const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
-
-	const handleClickOpenConfirmDelete = () => {
-		setOpenConfirmDelete(true);
-	};
-
-	const handleCloseConfirmDelete = () => {
-		setOpenConfirmDelete(false);
-	};
-
-	const handleDelete = async () => {
-		// if (!listSelected) return;
-
-		// const newLists = await deleteList(lists, listSelected);
-
-		// setLists(newLists);
-
-		// const newTasks = await deleteTaskByListId(tasks, listSelected);
-
-		// setTasks(newTasks);
-
-		handleCloseConfirmDelete();
-	};
-
 	// **************************** render ****************************
 
 	return (
@@ -91,44 +67,8 @@ const MoreOptionButtonVariantText = () => {
 					</MenuItem>
 				))}
 
-				<Divider></Divider>
-				<MenuItem
-					onClick={() => {
-						handleCloseMoreButton();
-						handleClickOpenConfirmDelete();
-					}}
-				>
-					{/* <ListItemIcon>
-						<DeleteOutlineOutlinedIcon fontSize="small" />
-					</ListItemIcon> */}
-					Eliminar lista
-				</MenuItem>
+				{/* <Divider></Divider> */}
 			</Menu>
-
-			<Dialog
-				open={openConfirmDelete}
-				onClose={handleCloseConfirmDelete}
-				aria-labelledby="alert-dialog-title"
-				aria-describedby="alert-dialog-description"
-			>
-				{/* <DialogTitle id="alert-dialog-title" >
-					Seguro que quiere eliminar {title}
-				</DialogTitle> */}
-				<DialogContent>
-					{/* <DialogContentText id="alert-dialog-description">
-					Seguro que quiere eliminar {title}
-					</DialogContentText> */}
-					{`Seguro que quiere eliminar`}
-				</DialogContent>
-				<DialogActions>
-					<Button onClick={handleCloseConfirmDelete} autoFocus>
-						Cancelar
-					</Button>
-					<Button onClick={handleDelete} color="error">
-						Eliminar
-					</Button>
-				</DialogActions>
-			</Dialog>
 		</>
 	);
 };
