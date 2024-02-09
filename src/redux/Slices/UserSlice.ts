@@ -7,14 +7,16 @@ import { downItemInArray, upItemInArray } from "@/utils";
 import { Roles } from "../../../enums";
 
 const nullUser: AdminUserData | StudentUserData = {
-	_id: "",
-	firstName: "",
-	lastName: "",
-	username: "",
-	email: "",
-	password: "",
-	role: Roles.null,
-	token: "",
+	data:{
+		_id: "",
+		firstName: "",
+		lastName: "",
+		username: "",
+		email: "",
+		password: "",
+		role: Roles.null,
+		token: "",
+	}
 };
 
 const initialState: AdminUserData | StudentUserData = nullUser;

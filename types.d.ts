@@ -1,14 +1,16 @@
 import { Roles, TypeText } from "./enums";
 
 export interface userData {
-	_id: string;
-	firstName: string;
-	lastName: string;
-	username: string;
-	email: string;
-	password: string;
-	role: Roles;
-	token: string;
+	data: {
+		_id: string;
+		firstName: string;
+		lastName: string;
+		username: string;
+		email: string;
+		password: string;
+		role: Roles;
+		token: string;
+	}
 }
 
 export interface StudentUserData extends userData {}

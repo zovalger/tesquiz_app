@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { DISABLE_AUTH } from "@/config";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-	const user = useAppSelector((state) => state.user);
+	const user = useAppSelector((state) => state.user.data);
 
 	const router = useRouter();
 
@@ -18,9 +18,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
 	useEffect(() => {
 		if (!DISABLE_AUTH)
-			if (user.role != Roles.admin)
-				return router.replace(RouterLinks.admin.login);
-	}, [user]);
+			if (user.role != Roles.admin) return router.replace(RouterLinks.admin.login);
+			
+	}, [user, router]);
 
 	return <>{children}</>;
 }

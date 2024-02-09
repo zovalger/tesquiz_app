@@ -7,7 +7,7 @@ import RouterLinks from "@/config/RouterLinks";
 import { useEffect } from "react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-	const user = useAppSelector((state) => state.user);
+	const user = useAppSelector((state) => state.user.data);
 
 	const router = useRouter();
 
@@ -17,7 +17,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
 	useEffect(() => {
 		if (user.role != Roles.student) return router.replace(RouterLinks.landing);
-	}, [user]);
+	}, [user, router]);
 	
 	return <>{children}</>;
 }
